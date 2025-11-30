@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://cyub1x37ggddk"]
+[gd_scene load_steps=38 format=3 uid="uid://cyub1x37ggddk"]
 
 [ext_resource type="Script" uid="uid://c5k4m74hecbuu" path="res://script/player.gd" id="1_2hs0m"]
 [ext_resource type="Texture2D" uid="uid://c60671xc1ca0s" path="res://art/Soldier/Soldier_Hit.png" id="2_1jxqw"]
@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://cclxcvorwj8i" path="res://art/Soldier/Soldier_Death.png" id="4_b26j0"]
 [ext_resource type="Texture2D" uid="uid://cuprsh1eheshx" path="res://art/Soldier/Soldier_Idle.png" id="5_n7ghd"]
 [ext_resource type="Texture2D" uid="uid://x1s02wew6t2x" path="res://art/Soldier/Soldier_Walk.png" id="6_nvl01"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oh5ij"]
+radius = 12.0415945
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ivps1"]
 atlas = ExtResource("2_1jxqw")
@@ -242,9 +245,10 @@ animations = [{
 script = ExtResource("1_2hs0m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_oh5ij")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(7.6293945e-06, 3)
+position = Vector2(-0.99999976, -15)
 scale = Vector2(3.118676, 2.7673147)
 sprite_frames = SubResource("SpriteFrames_ny14h")
 animation = &"idle"
