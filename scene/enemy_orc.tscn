@@ -1,6 +1,6 @@
-[gd_scene load_steps=39 format=3 uid="uid://cbovfd1ie8j56"]
+[gd_scene load_steps=40 format=3 uid="uid://cbovfd1ie8j56"]
 
-[ext_resource type="Script" uid="uid://btyci6qb7m6qv" path="res://enemy_orc.gd" id="1_aild4"]
+[ext_resource type="Script" uid="uid://btyci6qb7m6qv" path="res://script/enemy_orc.gd" id="1_aild4"]
 [ext_resource type="Texture2D" uid="uid://b6yab3erhrxkj" path="res://art/Orc/Orc_Attack01.png" id="1_go3w7"]
 [ext_resource type="Texture2D" uid="uid://by87ubaap824i" path="res://art/Orc/Orc_Death.png" id="2_aild4"]
 [ext_resource type="Texture2D" uid="uid://cxaa12jqr17eb" path="res://art/Orc/Orc_Hit.png" id="3_ud7aq"]
@@ -146,7 +146,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"attack",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -161,12 +161,12 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xqoag")
 }],
-"loop": true,
+"loop": false,
 "name": &"death",
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 1.01,
 "texture": SubResource("AtlasTexture_c5jy6")
 }, {
 "duration": 1.0,
@@ -181,9 +181,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_07h8t")
 }],
-"loop": true,
+"loop": false,
 "name": &"hit",
-"speed": 5.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -239,19 +239,20 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ac1o"]
-radius = 47.518417
+radius = 72.02777
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4sior"]
-radius = 3.1622777
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aild4"]
+radius = 7.81025
 
 [node name="enemyOrc" type="CharacterBody2D"]
 script = ExtResource("1_aild4")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6vyvc")
-animation = &"walk"
-frame = 5
-frame_progress = 0.91399074
+animation = &"attack"
 
 [node name="Detection Area" type="Area2D" parent="AnimatedSprite2D"]
 collision_layer = 2
@@ -261,8 +262,31 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_4ac1o")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 4)
+position = Vector2(0, 4)
 shape = SubResource("CircleShape2D_4sior")
 
+[node name="enemy_hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
+shape = SubResource("CircleShape2D_aild4")
+
+[node name="take_damage_cooldown" type="Timer" parent="."]
+
+[node name="enemy_attack_cooldown" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="hit_recovery_timer" type="Timer" parent="."]
+wait_time = 0.016
+
+[connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="animation_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_changed"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]
+[connection signal="ready" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_ready"]
 [connection signal="body_entered" from="AnimatedSprite2D/Detection Area" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="AnimatedSprite2D/Detection Area" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]
+[connection signal="body_exited" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_exited"]
+[connection signal="timeout" from="take_damage_cooldown" to="." method="_on_take_damage_cooldown_timeout"]
+[connection signal="timeout" from="enemy_attack_cooldown" to="." method="_on_enemy_attack_cooldown_timeout"]
+[connection signal="timeout" from="hit_recovery_timer" to="." method="_on_hit_recovery_timer_timeout"]

@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dn0n3ryyduo8v" path="res://art/Tile set/Texture/TX Struct.png" id="8_hnm4a"]
 [ext_resource type="Texture2D" uid="uid://ckmf07i4rai3k" path="res://art/Tile set/Texture/TX Tileset Grass.png" id="9_e4vd1"]
 [ext_resource type="Texture2D" uid="uid://cccjosffi70p5" path="res://art/Tile set/Texture/TX Tileset Stone Ground.png" id="10_1402k"]
-[ext_resource type="PackedScene" uid="uid://cbovfd1ie8j56" path="res://enemy_orc.tscn" id="11_jsnws"]
+[ext_resource type="PackedScene" uid="uid://cbovfd1ie8j56" path="res://scene/enemy_orc.tscn" id="11_jsnws"]
 [ext_resource type="PackedScene" uid="uid://cyub1x37ggddk" path="res://scene/player.tscn" id="11_na5tu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ol7uo"]
@@ -7258,5 +7258,5 @@ position = Vector2(20.999992, 240)
 scale = Vector2(0.63314384, 0.73194945)
 
 [node name="enemyOrc" parent="." instance=ExtResource("11_jsnws")]
-position = Vector2(533, 236)
+position = Vector2(215, 248)
 scale = Vector2(2.142171, 2.6586804)
