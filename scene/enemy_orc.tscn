@@ -259,6 +259,7 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/Detection Area"]
+light_mask = 3
 shape = SubResource("CircleShape2D_4ac1o")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

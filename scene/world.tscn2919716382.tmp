@@ -1,7 +1,7 @@
-[gd_scene load_steps=28 format=3 uid="uid://diclcao3ya21k"]
+[gd_scene load_steps=26 format=3 uid="uid://diclcao3ya21k"]
 
 [ext_resource type="Texture2D" uid="uid://c34vle0wkflbu" path="res://art/Tile set/Texture/TX Tileset Wall.png" id="1_7ghph"]
-[ext_resource type="Script" uid="uid://bfete7e5hoqmh" path="res://script/world.gd" id="1_jsnws"]
+[ext_resource type="Script" uid="uid://bfete7e5hoqmh" path="res://scene/world.gd" id="1_jsnws"]
 [ext_resource type="Texture2D" uid="uid://dkrcvqbs85upf" path="res://art/Tile set/Scene Overview.png" id="2_na5tu"]
 [ext_resource type="Texture2D" uid="uid://dlm5ottu21rnm" path="res://art/Tile set/Texture/TX Player.png" id="4_f345f"]
 [ext_resource type="Texture2D" uid="uid://bk8wp5d6uj87y" path="res://art/Tile set/Texture/TX Props.png" id="5_bqa5m"]
@@ -12,8 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://cccjosffi70p5" path="res://art/Tile set/Texture/TX Tileset Stone Ground.png" id="10_1402k"]
 [ext_resource type="PackedScene" uid="uid://cbovfd1ie8j56" path="res://scene/enemy_orc.tscn" id="11_jsnws"]
 [ext_resource type="PackedScene" uid="uid://cyub1x37ggddk" path="res://scene/player.tscn" id="11_na5tu"]
-[ext_resource type="PackedScene" uid="uid://bsn1lv4xh72k1" path="res://scene/enemy_slime.tscn" id="13_f345f"]
-[ext_resource type="PackedScene" uid="uid://dqoyv7fytfyxk" path="res://scene/enemy_skeleton.tscn" id="14_bqa5m"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ol7uo"]
 texture = ExtResource("1_7ghph")
@@ -7278,14 +7276,6 @@ polygon = PackedVector2Array(-6, 2, 408, 2, 408, -76, 654, -78, 651, 0, 1145, 2,
 [node name="CollisionShape2D" type="CollisionShape2D" parent="cliffside_transition_point"]
 position = Vector2(530.5, -40)
 shape = SubResource("RectangleShape2D_f345f")
-
-[node name="enemySlime" parent="." instance=ExtResource("13_f345f")]
-position = Vector2(685, 316)
-scale = Vector2(1.5999805, 1.5200098)
-
-[node name="enemySkeleton" parent="." instance=ExtResource("14_bqa5m")]
-position = Vector2(503, 411.99997)
-scale = Vector2(0.9200001, 0.8400024)
 
 [connection signal="body_entered" from="cliffside_transition_point" to="." method="_on_cliffside_transition_point_body_entered"]
 [connection signal="body_exited" from="cliffside_transition_point" to="." method="_on_cliffside_transition_point_body_exited"]

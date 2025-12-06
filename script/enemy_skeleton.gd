@@ -96,7 +96,7 @@ func _on_enemy_hitbox_body_exited(body: Node2D) -> void:
 # Frame-based damage dealing — called when the AnimatedSprite2D frame changes.
 func _on_animated_sprite_frame_changed():
 	# Ensure we are in the attack animation and at the damage frame.
-	if $AnimatedSprite2D.animation == "attack" and $AnimatedSprite2D.frame == 3:
+	if $AnimatedSprite2D.animation == "attack" and $AnimatedSprite2D.frame == 6:
 		# Only deal once per attack
 		if player_inattack_zone and player != null and !has_dealt_damage:
 			if player.has_method("take_damage"):
