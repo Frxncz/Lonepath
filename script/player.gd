@@ -218,3 +218,11 @@ func _on_animated_sprite_animation_finished():
 		queue_free()
 	elif current_anim == "attack":
 		attack_ip = false
+
+func current_camera():
+	if global.current_scene == "world":
+		$world_camera.enabled = true
+		$cliffside_camera.enabled = false
+	elif global.current_scene == "cliffside":
+		$world_camera.enabled = true
+		$cliffside_camera.enabled = false

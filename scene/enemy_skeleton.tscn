@@ -232,18 +232,19 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ac1o"]
-radius = 102.122475
+radius = 203.79646
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4sior"]
-radius = 4.0
+radius = 11.401754
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aild4"]
-radius = 7.81025
+radius = 22.022715
 
 [node name="enemySkeleton" type="CharacterBody2D"]
 script = ExtResource("1_0y877")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, -47)
 sprite_frames = SubResource("SpriteFrames_6vyvc")
 animation = &"attack"
 frame_progress = 0.529281
@@ -254,6 +255,7 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/Detection Area"]
 light_mask = 3
+position = Vector2(-2, 48)
 shape = SubResource("CircleShape2D_4ac1o")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -263,6 +265,7 @@ shape = SubResource("CircleShape2D_4sior")
 [node name="enemy_hitbox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
+position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_aild4")
 
 [node name="take_damage_cooldown" type="Timer" parent="."]

@@ -272,7 +272,18 @@ one_shot = true
 [node name="deal_attack_timer" type="Timer" parent="."]
 wait_time = 0.5
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="world_camera" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+limit_left = -2
+limit_top = 0
+limit_right = 1148
+limit_bottom = 654
+limit_smoothed = true
+rotation_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+
+[node name="cliffside_camera" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 limit_left = -2
 limit_top = 0
