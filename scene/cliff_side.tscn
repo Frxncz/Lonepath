@@ -1,5 +1,6 @@
-[gd_scene load_steps=24 format=3 uid="uid://u4xgyoxit46b"]
+[gd_scene load_steps=27 format=3 uid="uid://u4xgyoxit46b"]
 
+[ext_resource type="Script" uid="uid://dslpuov7qpknt" path="res://script/cliff_side.gd" id="1_c42jl"]
 [ext_resource type="Texture2D" uid="uid://c34vle0wkflbu" path="res://art/Tile set/Texture/TX Tileset Wall.png" id="1_cxu0v"]
 [ext_resource type="Texture2D" uid="uid://dkrcvqbs85upf" path="res://art/Tile set/Scene Overview.png" id="2_4jj07"]
 [ext_resource type="Texture2D" uid="uid://dlm5ottu21rnm" path="res://art/Tile set/Texture/TX Player.png" id="3_1mjv8"]
@@ -7238,7 +7239,38 @@ sources/9 = SubResource("TileSetAtlasSource_8jes3")
 sources/10 = SubResource("TileSetAtlasSource_pj6rq")
 sources/12 = SubResource("TileSetAtlasSource_kblht")
 
+[sub_resource type="GDScript" id="GDScript_c42jl"]
+script/source = "extends Node2D
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	change_scene()
+
+func _on_cliffside_transition_point_body_entered(body: Node2D) -> void:
+	if body.has_method(\"player\"):
+		global.transition_scene = true
+
+func _on_cliffside_transition_point_body_exited(body: Node2D) -> void:
+	if body.has_method(\"player\"):
+		# fixed misspelling: transtion_scene -> transition_scene
+		global.transition_scene = false
+
+func change_scene() -> void:
+	if global.transition_scene == true:
+		if global.current_scene == \"world\":
+			get_tree().change_scene_to_file(\"res://scene/cliff_side.tscn\")
+			global.finish_changescenes()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j71vk"]
+size = Vector2(383, 24.5)
+
 [node name="cliff_side" type="Node2D"]
+script = ExtResource("1_c42jl")
 
 [node name="TileMap" type="TileMap" parent="."]
 y_sort_enabled = true
@@ -7256,13 +7288,23 @@ layer_2/tile_data = PackedInt32Array(589858, 1441796, 16, 720923, 1376260, 10, 7
 [node name="collisions" type="StaticBody2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="collisions"]
-polygon = PackedVector2Array(-6, 2, 408, 2, 460, -3, 606, 0, 651, 0, 1145, 2, 1149, 147, 1149, 298, 1157, 363, 1150, 397, 1150, 654, 732, 655, 722, 670, 552.84576, 668.5865, 363, 667, 350, 652, 1, 655, -1, 352, -3, 277, 1, 148, -1, 74, 2, -57, -290, 5, -404, 211, -427, 490, -395, 724, -196, 858, 161, 910, 595, 961, 966, 964, 1291, 901, 1505, 778, 1585, 507, 1602, 151, 1508, -29, 1371, -246, 966, -368, 501, -388, 58, -346)
+polygon = PackedVector2Array(-6, 2, 408, 2, 460, -3, 606, 0, 651, 0, 1145, 2, 1149, 147, 1149, 298, 1157, 363, 1150, 397, 1150, 654, 732, 655, 731, 679, 550, 679, 351, 679, 350, 652, 1, 655, -1, 352, -3, 277, 1, 148, -1, 74, 2, -57, -290, 5, -404, 211, -427, 490, -395, 724, -196, 858, 161, 910, 595, 961, 966, 964, 1291, 901, 1505, 778, 1585, 507, 1602, 151, 1508, -29, 1371, -246, 966, -368, 501, -388, 58, -346)
 
 [node name="player" parent="." instance=ExtResource("10_4jj07")]
 y_sort_enabled = true
-position = Vector2(553, 649)
+position = Vector2(558, 630.00006)
 scale = Vector2(0.63314384, 0.73194945)
 
 [node name="enemyOrc" parent="." instance=ExtResource("11_1mjv8")]
 position = Vector2(548, 126)
 scale = Vector2(3.1903615, 4.3968635)
+
+[node name="cliffside_exitpoint" type="Area2D" parent="."]
+script = SubResource("GDScript_c42jl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="cliffside_exitpoint"]
+position = Vector2(541.5, 665.25)
+shape = SubResource("RectangleShape2D_j71vk")
+
+[connection signal="body_entered" from="cliffside_exitpoint" to="." method="_on_cliffside_exitpoint_body_entered"]
+[connection signal="body_exited" from="cliffside_exitpoint" to="." method="_on_cliffside_exitpoint_body_exited"]

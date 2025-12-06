@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://diclcao3ya21k"]
+[gd_scene load_steps=30 format=3 uid="uid://diclcao3ya21k"]
 
 [ext_resource type="Texture2D" uid="uid://c34vle0wkflbu" path="res://art/Tile set/Texture/TX Tileset Wall.png" id="1_7ghph"]
 [ext_resource type="Script" uid="uid://bfete7e5hoqmh" path="res://script/world.gd" id="1_jsnws"]
@@ -13,10 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://cyub1x37ggddk" path="res://scene/player.tscn" id="11_na5tu"]
 [ext_resource type="PackedScene" uid="uid://bsn1lv4xh72k1" path="res://scene/enemy_slime.tscn" id="13_f345f"]
 [ext_resource type="PackedScene" uid="uid://cegkvbqljc7pb" path="res://scene/enemy_slime2.tscn" id="14_a0bac"]
-[ext_resource type="PackedScene" uid="uid://dqoyv7fytfyxk" path="res://scene/enemy_skeleton.tscn" id="14_bqa5m"]
 [ext_resource type="Script" uid="uid://cm10ickywrju1" path="res://script/enemy_slime_2.gd" id="15_tmyho"]
 [ext_resource type="PackedScene" uid="uid://b3iom1gwn06ny" path="res://scene/enemy_slime3.tscn" id="16_hnm4a"]
-[ext_resource type="Script" uid="uid://dmmod6hcq53wi" path="res://scene/enemy_slime_3.gd" id="17_e4vd1"]
+[ext_resource type="Script" uid="uid://dmmod6hcq53wi" path="res://script/enemy_slime_3.gd" id="17_e4vd1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bqa5m"]
 texture = ExtResource("1_7ghph")
@@ -7264,7 +7263,7 @@ layer_2/tile_data = PackedInt32Array(1441818, 65538, 0, 458769, 65538, 0, 150733
 
 [node name="player" parent="." instance=ExtResource("11_na5tu")]
 y_sort_enabled = true
-position = Vector2(560, 345.00003)
+position = Vector2(561, 398)
 scale = Vector2(0.63314384, 0.73194945)
 
 [node name="collisions" type="StaticBody2D" parent="."]
@@ -7279,22 +7278,18 @@ position = Vector2(532, -3)
 shape = SubResource("RectangleShape2D_f345f")
 
 [node name="enemySlime" parent="." instance=ExtResource("13_f345f")]
-position = Vector2(726, 327)
-scale = Vector2(1.8799804, 1.9200097)
+position = Vector2(703.99994, 320)
+scale = Vector2(1.478, 1.51)
 
 [node name="enemySlime2" parent="." instance=ExtResource("14_a0bac")]
-position = Vector2(362, 303)
-scale = Vector2(1.225442, 1.1745857)
+position = Vector2(384, 296.00003)
+scale = Vector2(1.4987934, 1.5096923)
 script = ExtResource("15_tmyho")
 
 [node name="enemySlime3" parent="." instance=ExtResource("16_hnm4a")]
-position = Vector2(518, 444)
-scale = Vector2(1.6961648, 1.5777041)
+position = Vector2(546, 146.00005)
+scale = Vector2(1.478, 1.437)
 script = ExtResource("17_e4vd1")
-
-[node name="enemySkeleton" parent="." instance=ExtResource("14_bqa5m")]
-position = Vector2(548.00006, 101)
-scale = Vector2(0.65862423, 0.62489974)
 
 [connection signal="body_entered" from="cliffside_transition_point" to="." method="_on_cliffside_transition_point_body_entered"]
 [connection signal="body_exited" from="cliffside_transition_point" to="." method="_on_cliffside_transition_point_body_exited"]
