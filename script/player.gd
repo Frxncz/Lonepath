@@ -215,7 +215,7 @@ func _on_animated_sprite_animation_finished():
 		# here for compatibility with any other logic that relied on it.
 		attack_ip = false
 	elif current_anim == "death":
-		queue_free()
+		get_tree().change_scene_to_file("res://scene/game_over.tscn")
 	elif current_anim == "attack":
 		attack_ip = false
 
