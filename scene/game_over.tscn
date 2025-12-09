@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://tickxhgx1qvi"]
+[gd_scene load_steps=3 format=3 uid="uid://tickxhgx1qvi"]
 
 [ext_resource type="Script" uid="uid://bk40yigl4egvi" path="res://script/game_over.gd" id="1_8uq5u"]
+[ext_resource type="AudioStream" uid="uid://ccldj27dv7swe" path="res://art/Musics/Run As Fast As You Can.mp3" id="2_mxr41"]
 
 [node name="GameOver" type="CanvasLayer"]
 script = ExtResource("1_8uq5u")
@@ -31,6 +32,10 @@ offset_top = 293.0
 offset_right = 635.0
 offset_bottom = 324.0
 text = "Quit"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_mxr41")
+autoplay = true
 
 [connection signal="pressed" from="restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="quit" to="." method="_on_quit_pressed"]

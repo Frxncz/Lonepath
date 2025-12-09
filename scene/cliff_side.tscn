@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://u4xgyoxit46b"]
+[gd_scene load_steps=28 format=3 uid="uid://u4xgyoxit46b"]
 
 [ext_resource type="Script" uid="uid://dslpuov7qpknt" path="res://script/cliff_side.gd" id="1_c42jl"]
 [ext_resource type="Texture2D" uid="uid://c34vle0wkflbu" path="res://art/Tile set/Texture/TX Tileset Wall.png" id="1_cxu0v"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cccjosffi70p5" path="res://art/Tile set/Texture/TX Tileset Stone Ground.png" id="9_7ebvi"]
 [ext_resource type="PackedScene" uid="uid://cyub1x37ggddk" path="res://scene/player.tscn" id="10_4jj07"]
 [ext_resource type="PackedScene" uid="uid://cbovfd1ie8j56" path="res://scene/enemy_orc.tscn" id="11_1mjv8"]
+[ext_resource type="AudioStream" uid="uid://blp5t8iv1njqo" path="res://art/Musics/Trippy Trip Trop.mp3" id="13_x5cen"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pj6rq"]
 texture = ExtResource("1_cxu0v")
@@ -7305,6 +7306,10 @@ script = SubResource("GDScript_c42jl")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="cliffside_exitpoint"]
 position = Vector2(541.5, 665.25)
 shape = SubResource("RectangleShape2D_j71vk")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_x5cen")
+autoplay = true
 
 [connection signal="body_entered" from="cliffside_exitpoint" to="." method="_on_cliffside_exitpoint_body_entered"]
 [connection signal="body_exited" from="cliffside_exitpoint" to="." method="_on_cliffside_exitpoint_body_exited"]

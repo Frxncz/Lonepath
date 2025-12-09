@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d1rnrrd4j2vc2"
+path="res://.godot/imported/Melancholic Walk.mp3-e438ead80507680e3d3f4c1b6ee67c67.mp3str"
+
+[deps]
+
+source_file="res://art/Musics/Melancholic Walk.mp3"
+dest_files=["res://.godot/imported/Melancholic Walk.mp3-e438ead80507680e3d3f4c1b6ee67c67.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
