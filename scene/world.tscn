@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://diclcao3ya21k"]
+[gd_scene load_steps=32 format=3 uid="uid://diclcao3ya21k"]
 
 [ext_resource type="Texture2D" uid="uid://c34vle0wkflbu" path="res://art/Tile set/Texture/TX Tileset Wall.png" id="1_7ghph"]
 [ext_resource type="Script" uid="uid://bfete7e5hoqmh" path="res://script/world.gd" id="1_jsnws"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://b3iom1gwn06ny" path="res://scene/enemy_slime3.tscn" id="16_hnm4a"]
 [ext_resource type="Script" uid="uid://dmmod6hcq53wi" path="res://script/enemy_slime_3.gd" id="17_e4vd1"]
 [ext_resource type="AudioStream" uid="uid://d1rnrrd4j2vc2" path="res://art/Musics/Melancholic Walk.mp3" id="17_hnm4a"]
+[ext_resource type="PackedScene" uid="uid://cjgkrhaj4q5g5" path="res://scene/textbox.tscn" id="18_e4vd1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bqa5m"]
 texture = ExtResource("1_7ghph")
@@ -7295,6 +7296,8 @@ script = ExtResource("17_e4vd1")
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("17_hnm4a")
 autoplay = true
+
+[node name="Textbox" parent="." instance=ExtResource("18_e4vd1")]
 
 [connection signal="body_entered" from="cliffside_transition_point" to="." method="_on_cliffside_transition_point_body_entered"]
 [connection signal="body_exited" from="cliffside_transition_point" to="." method="_on_cliffside_transition_point_body_exited"]

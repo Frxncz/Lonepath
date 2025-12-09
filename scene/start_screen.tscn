@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dftv4amd8tyfx"]
 
-[ext_resource type="Script" uid="uid://xcbgqmc3jt7h" path="res://scene/start_screen.gd" id="1_gkif4"]
+[ext_resource type="Script" uid="uid://xcbgqmc3jt7h" path="res://script/start_screen.gd" id="1_gkif4"]
 [ext_resource type="Texture2D" uid="uid://ck0ino6uu0pje" path="res://art/icon.svg" id="2_3273u"]
 [ext_resource type="AudioStream" uid="uid://c1w4jska3obb6" path="res://art/Musics/Begin Your Journey.mp3" id="3_cmsy7"]
 
@@ -8,7 +8,7 @@
 script = ExtResource("1_gkif4")
 
 [node name="start" type="Button" parent="."]
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 571.0
