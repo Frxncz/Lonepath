@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://cjgkrhaj4q5g5"]
 
 [ext_resource type="FontFile" uid="uid://d4bl3m6p2ncn5" path="res://art/fonts/Adventurer.ttf" id="1_0lrlq"]
-[ext_resource type="Script" uid="uid://ccr3flmarpyia" path="res://scene/textbox.gd" id="1_m1w5b"]
+[ext_resource type="Script" uid="uid://ccr3flmarpyia" path="res://script/textbox_start.gd" id="1_m1w5b"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ec5rg"]
 bg_color = Color(0, 0, 0, 0.44705883)
 border_color = Color(0, 0, 0, 1)
 
-[node name="Textbox" type="CanvasLayer"]
+[node name="Textbox_start" type="CanvasLayer"]
 script = ExtResource("1_m1w5b")
 
 [node name="textboxContainer" type="MarginContainer" parent="."]

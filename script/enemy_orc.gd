@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
+signal died(message: String)
+
 var speed = 63
 var player_chase = false
 var player = null
-var health = 150
+var health = 40
 var player_inattack_zone = false
 var can_take_damage = true
 
@@ -13,6 +15,9 @@ var can_attack = true
 var has_dealt_damage = false
 var is_hit = false
 var is_dead = false
+
+# Guard to ensure we emit died only once
+var died_emitted: bool = false
 
 func _ready():
 	# Explicitly connect AnimatedSprite2D signals so naming/case issues don't break things.
@@ -135,10 +140,19 @@ func deal_with_damage():
 			if has_node("take_damage_cooldown"):
 				$take_damage_cooldown.start()
 			can_take_damage = false
-			print("orc health = ", health)
+			print("enemy_orc: health = ", health)
 			if health <= 0:
 				# Play death animation and mark as dead so it can finish
 				is_dead = true
+				print("enemy_orc: health <= 0, is_dead set true for ", name)
+				# Emit explicit died signal once so external scene controllers (like cliff_side) know
+				if not died_emitted:
+					died_emitted = true
+					print("enemy_orc: emitting died signal for ", name)
+					emit_signal("died", "You defeated the Orc!")
+				else:
+					print("enemy_orc: died_emitted was already true for ", name)
+				
 				$AnimatedSprite2D.play("death")
 
 func _on_take_damage_cooldown_timeout() -> void:

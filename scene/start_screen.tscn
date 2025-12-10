@@ -136,4 +136,4 @@ offset_bottom = -189.0
 
 [connection signal="pressed" from="VBoxContainer/start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="VBoxContainer/options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="VBoxContainer/exit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="VBoxContainer/exit" to="." method="_on_exit_pressed"]
