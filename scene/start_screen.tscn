@@ -1,30 +1,65 @@
-[gd_scene load_steps=4 format=3 uid="uid://dftv4amd8tyfx"]
+[gd_scene load_steps=11 format=3 uid="uid://dftv4amd8tyfx"]
 
 [ext_resource type="Script" uid="uid://xcbgqmc3jt7h" path="res://script/start_screen.gd" id="1_gkif4"]
 [ext_resource type="Texture2D" uid="uid://ck0ino6uu0pje" path="res://art/icon.svg" id="2_3273u"]
+[ext_resource type="Texture2D" uid="uid://cvcs6y5cvp3v7" path="res://art/Menu Assests/Startscreen BG.png" id="2_p8amv"]
 [ext_resource type="AudioStream" uid="uid://c1w4jska3obb6" path="res://art/Musics/Begin Your Journey.mp3" id="3_cmsy7"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cmsy7"]
+texture = ExtResource("2_p8amv")
+modulate_color = Color(0.5529556, 0.55295557, 0.55295557, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cmsy7"]
+bg_color = Color(0.796243, 0.796243, 0.796243, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.18431373)
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p8amv"]
+bg_color = Color(0.4506483, 0.45064825, 0.4506485, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.18431373)
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x64hx"]
+bg_color = Color(0.5729883, 0.5729882, 0.57298845, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.18431373)
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p8amv"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_p8amv"]
 
 [node name="startScreen" type="CanvasLayer"]
 script = ExtResource("1_gkif4")
 
-[node name="start" type="Button" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 571.0
-offset_top = 299.0
-offset_right = -535.0
-offset_bottom = -318.0
-text = "Start"
+[node name="Panel" type="Panel" parent="."]
+offset_right = 1151.0
+offset_bottom = 646.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_cmsy7")
 
 [node name="Logo" type="TextureRect" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 529.0
-offset_top = 157.0
-offset_right = -495.0
-offset_bottom = -363.0
+offset_left = 192.0
+offset_top = -229.0
+offset_right = -832.0
+offset_bottom = -749.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_3273u")
@@ -33,4 +68,72 @@ texture = ExtResource("2_3273u")
 stream = ExtResource("3_cmsy7")
 autoplay = true
 
-[connection signal="pressed" from="start" to="." method="_on_start_pressed"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -161.0
+offset_top = -33.0
+offset_right = 164.0
+offset_bottom = 205.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="start" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_cmsy7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_p8amv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_x64hx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p8amv")
+text = "Start game"
+icon = SubResource("ViewportTexture_p8amv")
+
+[node name="options" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_cmsy7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_p8amv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_x64hx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p8amv")
+text = "Options"
+icon = SubResource("ViewportTexture_p8amv")
+
+[node name="exit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_cmsy7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_p8amv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_x64hx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p8amv")
+text = "Exit
+"
+icon = SubResource("ViewportTexture_p8amv")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 192.0
+offset_top = -229.0
+offset_right = 232.0
+offset_bottom = -189.0
+
+[connection signal="pressed" from="VBoxContainer/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="VBoxContainer/exit" to="." method="_on_quit_pressed"]
