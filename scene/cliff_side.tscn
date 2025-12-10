@@ -7272,6 +7272,7 @@ func change_scene() -> void:
 size = Vector2(383, 24.5)
 
 [node name="cliff_side" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_c42jl")
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -7298,8 +7299,8 @@ position = Vector2(558, 630.00006)
 scale = Vector2(0.63314384, 0.73194945)
 
 [node name="enemy_orc" parent="." instance=ExtResource("11_1mjv8")]
-position = Vector2(548, 126)
-scale = Vector2(3.1903615, 4.3968635)
+position = Vector2(555, 260)
+scale = Vector2(1.1177034, 1.6354505)
 
 [node name="cliffside_exitpoint" type="Area2D" parent="."]
 script = SubResource("GDScript_c42jl")

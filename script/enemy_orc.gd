@@ -19,6 +19,12 @@ var is_dead = false
 # Guard to ensure we emit died only once
 var died_emitted: bool = false
 
+# Knockback state (when the player hits the enemy)
+var knockback_velocity := Vector2.ZERO
+var knockback_force := 300.0
+var knockback_duration := 0.0
+var max_knockback_duration := 0.12
+
 func _ready():
 	# Explicitly connect AnimatedSprite2D signals so naming/case issues don't break things.
 	if $AnimatedSprite2D:
@@ -36,6 +42,13 @@ func _physics_process(delta):
 		return
 
 	deal_with_damage()
+	
+	# Apply knockback when active — it overrides normal AI movement while occurring.
+	if knockback_duration > 0.0:
+		position += knockback_velocity * delta
+		knockback_velocity = knockback_velocity.lerp(Vector2.ZERO, 0.3)
+		knockback_duration -= delta
+		return
 	
 	# Don't do anything while being hit
 	if is_hit:
@@ -141,6 +154,13 @@ func deal_with_damage():
 				$take_damage_cooldown.start()
 			can_take_damage = false
 			print("enemy_orc: health = ", health)
+
+			# KNOCKBACK: push enemy away from the player slightly
+			if player != null:
+				var knock_dir = (global_position - player.global_position).normalized()
+				knockback_velocity = knock_dir * knockback_force
+				knockback_duration = max_knockback_duration
+
 			if health <= 0:
 				# Play death animation and mark as dead so it can finish
 				is_dead = true
