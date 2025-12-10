@@ -322,7 +322,7 @@ radius = 65.27634
 radius = 4.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aild4"]
-radius = 7.81025
+radius = 16.0
 
 [node name="enemySlime" type="CharacterBody2D"]
 script = ExtResource("1_tcndm")
@@ -347,7 +347,7 @@ shape = SubResource("CircleShape2D_4sior")
 [node name="enemy_hitbox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
-position = Vector2(1, 1)
+position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_aild4")
 
 [node name="take_damage_cooldown" type="Timer" parent="."]

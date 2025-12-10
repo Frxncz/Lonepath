@@ -245,7 +245,7 @@ radius = 44.099346
 radius = 7.638625
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aild4"]
-radius = 11.18034
+radius = 28.01785
 
 [node name="enemyOrc" type="CharacterBody2D"]
 y_sort_enabled = true
@@ -274,7 +274,7 @@ shape = SubResource("CircleShape2D_4sior")
 [node name="enemy_hitbox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
-position = Vector2(2, -2)
+position = Vector2(4, -5)
 shape = SubResource("CircleShape2D_aild4")
 
 [node name="take_damage_cooldown" type="Timer" parent="."]
