@@ -242,7 +242,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hp4bs"]
-radius = 67.0
+radius = 65.06919
 
 [node name="player" type="CharacterBody2D"]
 collision_layer = 3
@@ -294,6 +294,15 @@ limit_smoothed = true
 rotation_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
+
+[node name="healthbar" type="ProgressBar" parent="."]
+modulate = Color(0.2392, 0.92, 0.31862676, 1)
+offset_left = -21.999998
+offset_top = 12.999999
+offset_right = 217.99997
+offset_bottom = 40.0
+scale = Vector2(0.2, 0.2)
+show_percentage = false
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]

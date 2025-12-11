@@ -30,6 +30,7 @@ func _ready():
 		$take_damage_cooldown.connect("timeout", Callable(self, "_on_take_damage_cooldown_timeout"))
 
 func _physics_process(delta):
+	update_health()
 	if is_dead:
 		# don't do anything once dead
 		return
@@ -161,3 +162,7 @@ func deal_with_damage():
 
 func _on_take_damage_cooldown_timeout() -> void:
 	can_take_damage = true
+
+func update_health():
+	var healthbar = $healthbar
+	healthbar.value = health

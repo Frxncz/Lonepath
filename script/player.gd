@@ -24,6 +24,7 @@ func _ready():
 		print("ERROR: AnimatedSprite2D node not found")
 
 func _physics_process(delta):
+	update_health()
 	
 	if is_dead:
 		velocity = Vector2.ZERO
@@ -226,3 +227,8 @@ func current_camera():
 	elif global.current_scene == "cliffside":
 		$world_camera.enabled = true
 		$cliffside_camera.enabled = false
+
+
+func update_health():
+	var healthbar = $healthbar
+	healthbar.value = health
