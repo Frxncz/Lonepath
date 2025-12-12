@@ -292,7 +292,7 @@ offset_top = 11.0
 offset_right = 233.0
 offset_bottom = 56.0
 scale = Vector2(0.1, 0.1)
-max_value = 1200.0
+max_value = 800.0
 show_percentage = false
 
 [connection signal="ready" from="." to="." method="_on_ready"]

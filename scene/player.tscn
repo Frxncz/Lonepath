@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://cyub1x37ggddk"]
+[gd_scene load_steps=40 format=3 uid="uid://cyub1x37ggddk"]
 
 [ext_resource type="Script" uid="uid://c5k4m74hecbuu" path="res://script/player.gd" id="1_2hs0m"]
 [ext_resource type="Texture2D" uid="uid://ikgq2jidn1pk" path="res://art/Soldier/Soldier_Hit.png" id="2_1jxqw"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dqk2ithxb4ax8" path="res://art/Soldier/Soldier_Death.png" id="4_b26j0"]
 [ext_resource type="Texture2D" uid="uid://bleiahiq0rrxd" path="res://art/Soldier/Soldier_Idle.png" id="5_n7ghd"]
 [ext_resource type="Texture2D" uid="uid://bqr44odbsajn3" path="res://art/Soldier/Soldier_Walk.png" id="6_nvl01"]
+[ext_resource type="AudioStream" uid="uid://c13nau0ktoirt" path="res://art/Musics/sfx/Sword Slash-Sound Effect HD.mp3" id="7_hp4bs"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oh5ij"]
 radius = 12.0415945
@@ -303,6 +304,9 @@ offset_right = 219.99997
 offset_bottom = 55.0
 scale = Vector2(0.2, 0.2)
 show_percentage = false
+
+[node name="sfx_attack" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_hp4bs")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]

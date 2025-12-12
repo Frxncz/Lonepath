@@ -7,7 +7,7 @@ signal died(message: String)
 var speed = 57
 var player_chase = false
 var player = null
-var health = 1200
+var health = 800
 var player_inattack_zone = false
 var can_take_damage = true
 

@@ -17,7 +17,8 @@ func _ready() -> void:
 	_connect_orc_death()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+# prefixed to avoid unused parameter warning
+func _process(_delta: float) -> void:
 	change_scene()
 
 func _on_cliffside_exitpoint_body_entered(body: Node2D) -> void:
@@ -97,9 +98,12 @@ func _collect_orcs(node: Node, out_array: Array) -> void:
 # Handler for the explicit `died(message)` signal from an enemy.
 # The enemy emits one string message; we build a 3-sentence sequence here and call the textbox.
 func _on_orc_died(message: String = "") -> void:
+	print("cliff_side: on_orc_died called, message=", message)
 	# only show once (persisted)
 	if global.cliff_end_text_shown:
+		print("cliff_side: cliff_end_text_shown already true; skipping textbox")
 		return
+	# mark persisted flag early so we don't show twice
 	global.cliff_end_text_shown = true
 
 	var first: String = message if message != "" else "You struck the final blow and the Orc fell to the ground."
@@ -115,11 +119,11 @@ func _on_orc_anim_finished(orc: Node) -> void:
 	if orc == null:
 		return
 	var is_dead_flag: bool = false
-	if orc.get("is_dead") == true:
+	if orc.has_method("get") and orc.get("is_dead") == true:
 		is_dead_flag = true
 	if orc.has_node("AnimatedSprite2D"):
 		var anim_node: Node = orc.get_node("AnimatedSprite2D")
-		if anim_node.get("animation") == "death":
+		if anim_node.has_method("get") and anim_node.get("animation") == "death":
 			if is_dead_flag:
 				global.cliff_end_text_shown = true
 				_show_end_text(["You defeated the Orc!", "Your victory revealed new paths across the cliffside.", "Thank you for playing our demo."])
@@ -133,15 +137,17 @@ func _on_orc_anim_finished(orc: Node) -> void:
 func _on_orc_tree_exited(orc: Node) -> void:
 	if global.cliff_end_text_shown:
 		return
-	if orc != null and orc.get("is_dead") == true:
+	if orc != null and orc.has_method("get") and orc.get("is_dead") == true:
 		global.cliff_end_text_shown = true
 		_show_end_text(["You defeated the Orc!", "Your victory revealed new paths across the cliffside.", "Thank you for playing our demo."])
 
 
 # Find the Textbox_end node in the current scene (search descendants). Returns null if not found.
 func _find_textbox_node() -> Node:
+	# Fast path: child of this scene
 	if has_node("Textbox_end"):
 		return get_node("Textbox_end")
+	# Search descendants of this scene
 	var queue: Array = [self]
 	while queue.size() > 0:
 		var n: Node = queue.pop_front()
@@ -150,6 +156,28 @@ func _find_textbox_node() -> Node:
 				if c.name == "Textbox_end":
 					return c
 				queue.append(c)
+	# Fallback: search entire scene tree root recursively (robust)
+	var found = _find_node_in_root("Textbox_end")
+	if found:
+		print("cliff_side: Textbox_end found at: ", found.get_path())
+		return found
+	# not found
+	print("cliff_side: Textbox_end NOT found")
+	return null
+
+
+# Helper: recursively search the scene tree root for a node with the given name.
+func _find_node_in_root(name: String) -> Node:
+	var root = get_tree().get_root()
+	# Depth-first
+	var stack: Array = [root]
+	while stack.size() > 0:
+		var n: Node = stack.pop_back()
+		if n.name == name:
+			return n
+		for child in n.get_children():
+			if child is Node:
+				stack.append(child)
 	return null
 
 
@@ -157,14 +185,6 @@ func _find_textbox_node() -> Node:
 # Accepts either a String (single sentence) or an Array of strings (each will be shown in order).
 func _show_end_text(message) -> void:
 	var tb: Node = _find_textbox_node()
-	if tb == null:
-		# As a last resort, search the scene tree root
-		var root_tb: Node = null
-		for n in get_tree().get_root().get_children():
-			if n.name == "Textbox_end":
-				root_tb = n
-				break
-		tb = root_tb
 	if tb == null:
 		push_error("cliff_side: Textbox_end node not found - cannot show end textbox")
 		return
@@ -179,8 +199,10 @@ func _show_end_text(message) -> void:
 		texts_to_show = [first, second, third]
 
 	if tb.has_method("start_texts"):
+		print("cliff_side: starting textbox with texts:", texts_to_show)
 		tb.start_texts(texts_to_show)
 	elif tb.has_method("show_textbox"):
+		# fallback: show the first text directly
 		var label_path: String = "textboxContainer/MarginContainer/HBoxContainer/Label2"
 		if texts_to_show.size() > 0 and tb.has_node(label_path):
 			var label = tb.get_node(label_path)
@@ -263,10 +285,11 @@ func _on_persistent_enemy_died(id: String) -> void:
 		global.mark_enemy_dead(id)
 
 func _on_persistent_enemy_anim_finished(enemy: Node, id: String) -> void:
-	if enemy != null and enemy.get("is_dead") == true:
+	if enemy != null and enemy.has_method("get") and enemy.get("is_dead") == true:
 		if id != "":
 			global.mark_enemy_dead(id)
 
-func _on_persistent_enemy_tree_exited(enemy: Node, id: String) -> void:
+# prefixed the unused parameter to silence the warning
+func _on_persistent_enemy_tree_exited(_enemy: Node, id: String) -> void:
 	if id != "":
 		global.mark_enemy_dead(id)

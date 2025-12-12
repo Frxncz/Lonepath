@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+# Optional: an AudioStreamPlayer or AudioStreamPlayer2D node named "sfx_attack" as a child.
+@onready var sfx_attack: Node = $sfx_attack
+
 var enemy_in_attack_range = false
 var health = 100
 var player_alive = true
@@ -14,6 +17,11 @@ var knockback_velocity = Vector2.ZERO
 var knockback_force = 150
 var knockback_duration = 0.0
 var max_knockback_duration = 0.2
+
+# Attack cooldown: prevents spamming attacks
+var can_attack: bool = true
+@export var attack_cooldown_time: float = 0.8
+var _attack_cooldown_timer: Timer = null
 
 # Regen configuration
 var _regen_timer: Timer = null
@@ -42,6 +50,19 @@ func _ready():
 	else:
 		_regen_timer = $RegenTimer
 		_regen_timer.wait_time = regen_interval
+
+	# Create attack cooldown timer
+	if not has_node("AttackCooldownTimer"):
+		_attack_cooldown_timer = Timer.new()
+		_attack_cooldown_timer.name = "AttackCooldownTimer"
+		_attack_cooldown_timer.wait_time = attack_cooldown_time
+		_attack_cooldown_timer.one_shot = true
+		add_child(_attack_cooldown_timer)
+		_attack_cooldown_timer.connect("timeout", Callable(self, "_on_attack_cooldown_timeout"))
+	else:
+		_attack_cooldown_timer = $AttackCooldownTimer
+		_attack_cooldown_timer.wait_time = attack_cooldown_time
+		_attack_cooldown_timer.one_shot = true
 
 	# Connect animated sprite signal
 	if $AnimatedSprite2D:
@@ -225,11 +246,29 @@ func attack():
 	if is_dead:
 		return
 	
+	# prevent spam: require can_attack to be true
+	if not can_attack:
+		return
+
 	var dir = current_dir
 
 	if Input.is_action_just_pressed("attack"):
+		# start cooldown right away
+		can_attack = false
+		if _attack_cooldown_timer:
+			_attack_cooldown_timer.wait_time = attack_cooldown_time
+			_attack_cooldown_timer.start()
+
 		global.player_current_attack = true
 		attack_ip = true
+
+		# Play attack SFX if available
+		if sfx_attack != null and sfx_attack.has_method("play"):
+			# restart sound from beginning
+			if sfx_attack.has_method("stop"):
+				sfx_attack.stop()
+			sfx_attack.play()
+
 		if dir == "right":
 			$AnimatedSprite2D.flip_h = false
 			$AnimatedSprite2D.play("attack")
@@ -249,6 +288,10 @@ func _on_deal_attack_timer_timeout() -> void:
 	$deal_attack_timer.stop()
 	global.player_current_attack = false
 	attack_ip = false
+
+# Called when attack cooldown finishes
+func _on_attack_cooldown_timeout() -> void:
+	can_attack = true
 
 func _on_animated_sprite_animation_finished():
 	var current_anim = $AnimatedSprite2D.animation
