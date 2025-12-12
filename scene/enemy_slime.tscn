@@ -316,13 +316,13 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ac1o"]
-radius = 65.27634
+radius = 54.037025
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4sior"]
 radius = 4.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aild4"]
-radius = 16.0
+radius = 22.022715
 
 [node name="enemySlime" type="CharacterBody2D"]
 script = ExtResource("1_tcndm")
@@ -360,10 +360,10 @@ wait_time = 0.016
 
 [node name="healthbar" type="ProgressBar" parent="."]
 modulate = Color(1, 0, 0.016666412, 1)
-offset_left = -8.999999
-offset_top = 9.999999
-offset_right = 190.99998
-offset_bottom = 37.0
+offset_left = -12.000001
+offset_top = 10.000001
+offset_right = 233.0
+offset_bottom = 55.0
 scale = Vector2(0.1, 0.1)
 show_percentage = false
 

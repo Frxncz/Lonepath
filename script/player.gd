@@ -15,13 +15,46 @@ var knockback_force = 150
 var knockback_duration = 0.0
 var max_knockback_duration = 0.2
 
+# Regen configuration
+var _regen_timer: Timer = null
+var regen_interval: float = 2.0   # seconds between heals
+var regen_amount: int = 5         # HP per tick
+
 func _ready():
 	current_dir = "down"
 	
+	# Restore health from global (persisted across scenes)
+	if Engine.has_singleton("global"):
+		# global is autoload; use its values
+		health = global.player_health if global.player_health != null else health
+		# ensure max in global matches (optional)
+		if global.player_max_health == null:
+			global.player_max_health = 100
+
+	# Create a regen timer (one per player). It won't autostart.
+	if not has_node("RegenTimer"):
+		_regen_timer = Timer.new()
+		_regen_timer.name = "RegenTimer"
+		_regen_timer.wait_time = regen_interval
+		_regen_timer.one_shot = false
+		add_child(_regen_timer)
+		_regen_timer.connect("timeout", Callable(self, "_on_regen_timeout"))
+	else:
+		_regen_timer = $RegenTimer
+		_regen_timer.wait_time = regen_interval
+
+	# Connect animated sprite signal
 	if $AnimatedSprite2D:
 		$AnimatedSprite2D.connect("animation_finished", Callable(self, "_on_animated_sprite_animation_finished"))
 	else:
 		print("ERROR: AnimatedSprite2D node not found")
+
+	# Sync UI immediately
+	update_health()
+	# persist initial health
+	if Engine.has_singleton("global"):
+		global.player_health = health
+		global.player_max_health = global.player_max_health if global.player_max_health != null else 100
 
 func _physics_process(delta):
 	update_health()
@@ -31,12 +64,8 @@ func _physics_process(delta):
 		move_and_slide()
 		return
 
-
-	
 	# If the player is being knocked back allow the player to cancel it by providing movement input.
-	# This makes the "hit" state cancel immediately if the player wants to move again.
 	if knockback_duration > 0:
-		# If any movement key is pressed, cancel knockback and continue to normal movement.
 		var input_moving = Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D) \
 			or Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A) \
 			or Input.is_action_pressed("ui_down") or Input.is_key_pressed(KEY_S) \
@@ -60,6 +89,9 @@ func _physics_process(delta):
 		health = 0
 		is_dead = true
 		print("player has been killed")
+		# persist death health
+		if Engine.has_singleton("global"):
+			global.player_health = health
 		if $AnimatedSprite2D:
 			$AnimatedSprite2D.play("death")
 
@@ -92,18 +124,12 @@ func player_movement(delta):
 	move_and_slide()
 
 func play_anim(movement):
-	# Do not block movement animations when the sprite is currently set to "hit".
-	# We still block animations during an attack or when dead.
 	if attack_ip or is_dead:
 		return
 	
 	var dir = current_dir
 	var anim = $AnimatedSprite2D
 	var current_animation = anim.animation
-
-	# Note: we intentionally removed the early return that prevented changing animations
-	# when the current animation was "hit". This allows the player to immediately cancel
-	# the 'hit' animation by moving and resume normal walking/idle animations.
 
 	if dir == "right":
 		anim.flip_h = false
@@ -155,7 +181,19 @@ func take_damage(damage_amount, attacker_position = null):
 		return
 
 	health -= damage_amount
-	print("player health = ", health)  # <-- debug print whenever player loses health
+	print("player health = ", health)  # debug print whenever player loses health
+
+	# persist immediately
+	if Engine.has_singleton("global"):
+		global.player_health = health
+
+	# restart the regen timer so healing begins 2s after last damage
+	if _regen_timer:
+		_regen_timer.stop()
+		_regen_timer.wait_time = regen_interval
+		# start only if still alive and not at max
+		if health > 0 and health < global.player_max_health:
+			_regen_timer.start()
 
 	if attacker_position != null:
 		var knock_dir = (global_position - attacker_position).normalized()
@@ -168,12 +206,17 @@ func take_damage(damage_amount, attacker_position = null):
 		is_dead = true
 		player_alive = false
 		print("player has been killed")
+		# persist death health
+		if Engine.has_singleton("global"):
+			global.player_health = health
 		if $AnimatedSprite2D:
 			$AnimatedSprite2D.play("death")
+		# stop regen
+		if _regen_timer:
+			_regen_timer.stop()
 		return
 
 	# Play hit animation when still alive.
-	# Movement input will now immediately override this animation and cancel knockback.
 	if $AnimatedSprite2D:
 		$AnimatedSprite2D.play("hit")
 
@@ -211,9 +254,6 @@ func _on_animated_sprite_animation_finished():
 	var current_anim = $AnimatedSprite2D.animation
 	
 	if current_anim == "hit":
-		# finishing 'hit' is not needed to re-enable movement anymore,
-		# since movement immediately overrides the animation. Keep this
-		# here for compatibility with any other logic that relied on it.
 		attack_ip = false
 	elif current_anim == "death":
 		get_tree().change_scene_to_file("res://scene/game_over.tscn")
@@ -228,7 +268,31 @@ func current_camera():
 		$world_camera.enabled = true
 		$cliffside_camera.enabled = false
 
-
 func update_health():
 	var healthbar = $healthbar
-	healthbar.value = health
+	if healthbar:
+		healthbar.value = health
+
+# Regen handler called by _regen_timer every regen_interval seconds.
+func _on_regen_timeout() -> void:
+	# Don't regen when dead
+	if is_dead:
+		if _regen_timer:
+			_regen_timer.stop()
+		return
+
+	# Use global max if available
+	var max_h = global.player_max_health if Engine.has_singleton("global") else 100
+	if health < max_h:
+		health = min(health + regen_amount, max_h)
+		# persist and update UI
+		if Engine.has_singleton("global"):
+			global.player_health = health
+		update_health()
+		print("player regen -> ", health)
+		# stop when full
+		if health >= max_h and _regen_timer:
+			_regen_timer.stop()
+	else:
+		if _regen_timer:
+			_regen_timer.stop()

@@ -7280,16 +7280,16 @@ position = Vector2(532, -3)
 shape = SubResource("RectangleShape2D_f345f")
 
 [node name="enemySlime" parent="." instance=ExtResource("13_f345f")]
-position = Vector2(703.99994, 320)
+position = Vector2(753, 311)
 scale = Vector2(1.478, 1.51)
 
 [node name="enemySlime2" parent="." instance=ExtResource("14_a0bac")]
-position = Vector2(384, 296.00003)
-scale = Vector2(1.4987934, 1.5096923)
+position = Vector2(347, 301)
+scale = Vector2(1.4967788, 1.5096923)
 script = ExtResource("15_tmyho")
 
 [node name="enemySlime3" parent="." instance=ExtResource("16_hnm4a")]
-position = Vector2(546, 146.00005)
+position = Vector2(544, 127.000015)
 scale = Vector2(1.478, 1.437)
 script = ExtResource("17_e4vd1")
 

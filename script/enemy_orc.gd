@@ -2,10 +2,12 @@ extends CharacterBody2D
 
 signal died(message: String)
 
-var speed = 63
+@export var persistent_id: String = ""
+
+var speed = 57
 var player_chase = false
 var player = null
-var health = 40
+var health = 1200
 var player_inattack_zone = false
 var can_take_damage = true
 
@@ -75,7 +77,6 @@ func _physics_process(delta):
 		$AnimatedSprite2D.play("idle")
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
-	# Try to find the player node robustly: either the body itself or its parent may be the player node.
 	var candidate = body
 	if not candidate.has_method("take_damage") and candidate.get_parent() != null:
 		candidate = candidate.get_parent()
@@ -84,7 +85,6 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 		player_chase = true
 
 func _on_detection_area_body_exited(body: Node2D) -> void:
-	# If the body leaving is the currently tracked player, clear reference.
 	var candidate = body
 	if not candidate.has_method("take_damage") and candidate.get_parent() != null:
 		candidate = candidate.get_parent()
@@ -96,7 +96,6 @@ func enemy():
 	pass
 
 func _on_enemy_hitbox_body_entered(body: Node2D) -> void:
-	# Robustly detect the player (the body or its parent with take_damage)
 	var candidate = body
 	if not candidate.has_method("take_damage") and candidate.get_parent() != null:
 		candidate = candidate.get_parent()
@@ -110,25 +109,17 @@ func _on_enemy_hitbox_body_exited(body: Node2D) -> void:
 		candidate = candidate.get_parent()
 	if candidate != null and candidate.has_method("take_damage"):
 		player_inattack_zone = false
-		# don't clear `player` here necessarily — detection area handles chase clearing
 
-# Frame-based damage dealing — called when the AnimatedSprite2D frame changes.
 func _on_animated_sprite_frame_changed():
-	# Ensure we are in the attack animation and at the damage frame.
 	if $AnimatedSprite2D.animation == "attack" and $AnimatedSprite2D.frame == 3:
-		# Only deal once per attack
 		if player_inattack_zone and player != null and !has_dealt_damage:
 			if player.has_method("take_damage"):
 				player.take_damage(20, self.global_position)
 				has_dealt_damage = true
 
-# Called when animations finish
 func _on_animated_sprite_animation_finished():
 	if $AnimatedSprite2D.animation == "attack":
-		# finished attack: start cooldown before next attack
-		# block further attacks until timer finishes
 		can_attack = false
-		# reset per-attack flag so next attack can deal again (safe fallback)
 		has_dealt_damage = false
 		if has_node("enemy_attack_cooldown"):
 			$enemy_attack_cooldown.start()
@@ -144,11 +135,9 @@ func _on_enemy_attack_cooldown_timeout() -> void:
 	can_attack = true
 
 func deal_with_damage():
-	# Player attacking enemy
-	# Player attack state is stored in global.player_current_attack
 	if player_inattack_zone and global.player_current_attack == true and !is_hit:
 		if can_take_damage == true:
-			health -= 10
+			health -= 30
 			is_hit = true
 			$AnimatedSprite2D.play("hit")
 			if has_node("take_damage_cooldown"):
@@ -169,11 +158,11 @@ func deal_with_damage():
 				# Emit explicit died signal once so external scene controllers (like cliff_side) know
 				if not died_emitted:
 					died_emitted = true
-					print("enemy_orc: emitting died signal for ", name)
+					var id = persistent_id if persistent_id != "" else name
+					global.mark_enemy_dead(id)
+					print("enemy_orc: marking dead in global -> ", id)
 					emit_signal("died", "You defeated the Orc!")
-				else:
-					print("enemy_orc: died_emitted was already true for ", name)
-				
+					print("enemy_orc: emitted died signal for ", name)
 				$AnimatedSprite2D.play("death")
 
 func _on_take_damage_cooldown_timeout() -> void:

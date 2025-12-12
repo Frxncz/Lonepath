@@ -1,10 +1,19 @@
 extends Node2D
 
-# Only show end textbox once
-var _end_text_shown: bool = false
+# Use global.cliff_end_text_shown so the end textbox persists across scenes
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Remove any enemies already marked dead and connect remaining ones
+	_restore_persistent_enemies()
+
+	# If cliff end textbox was already shown, hide it
+	if global.cliff_end_text_shown:
+		var tb = _find_textbox_node()
+		if tb and tb.has_method("hide_textbox"):
+			tb.hide_textbox()
+
+	# Connect death handlers for any remaining orcs
 	_connect_orc_death()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,23 +46,25 @@ func _connect_orc_death() -> void:
 	if orcs.size() == 0:
 		print("cliff_side: no orcs found to connect to")
 	for orc in orcs:
+		if not orc:
+			continue
 		# Prefer an explicit `died` signal if present
 		if orc.has_signal("died"):
-			# simple connection, died signal will pass the message string
-			orc.connect("died", Callable(self, "_on_orc_died"))
+			var cb = Callable(self, "_on_orc_died")
+			if not orc.is_connected("died", cb):
+				orc.connect("died", cb)
 			print("cliff_side: connected to orc.died for ", orc.name)
 		# Fallback: watch the AnimatedSprite2D finishing its animation (bind the orc)
 		elif orc.has_node("AnimatedSprite2D"):
 			var anim: Node = orc.get_node("AnimatedSprite2D")
-			# animation_finished usually emits no args; create a bound Callable so our handler receives the orc
-			var cb := Callable(self, "_on_orc_anim_finished").bind(orc)
-			anim.connect("animation_finished", cb)
+			var cb2 := Callable(self, "_on_orc_anim_finished").bind(orc)
+			if not anim.is_connected("animation_finished", cb2):
+				anim.connect("animation_finished", cb2)
 			print("cliff_side: connected to AnimatedSprite2D.animation_finished for ", orc.name)
 		else:
-			# final fallback: if the node is removed from the tree, assume it died
-			# create a bound Callable so the handler receives the orc
-			var cb2 := Callable(self, "_on_orc_tree_exited").bind(orc)
-			orc.connect("tree_exited", cb2)
+			var cb3 := Callable(self, "_on_orc_tree_exited").bind(orc)
+			if not orc.is_connected("tree_exited", cb3):
+				orc.connect("tree_exited", cb3)
 			print("cliff_side: connected to tree_exited for ", orc.name)
 
 
@@ -86,12 +97,11 @@ func _collect_orcs(node: Node, out_array: Array) -> void:
 # Handler for the explicit `died(message)` signal from an enemy.
 # The enemy emits one string message; we build a 3-sentence sequence here and call the textbox.
 func _on_orc_died(message: String = "") -> void:
-	# only show once
-	if _end_text_shown:
+	# only show once (persisted)
+	if global.cliff_end_text_shown:
 		return
-	_end_text_shown = true
+	global.cliff_end_text_shown = true
 
-	# Build a 3-sentence ending sequence. If the orc provided a custom message use it as the first sentence.
 	var first: String = message if message != "" else "You struck the final blow and the Orc fell to the ground."
 	var second: String = "Your victory revealed new paths across the cliffside, and hope began to spread through the nearby villages."
 	var third: String = "Thank you for playing our demo — your journey isn't over yet, but this battle is done."
@@ -99,39 +109,32 @@ func _on_orc_died(message: String = "") -> void:
 
 
 # Handler for AnimatedSprite2D.animation_finished (we bound the orc as the argument).
-# AnimatedSprite2D's signal typically provides no args, so our bound orc is the parameter.
 func _on_orc_anim_finished(orc: Node) -> void:
-	if _end_text_shown:
+	if global.cliff_end_text_shown:
 		return
 	if orc == null:
 		return
-	# require the orc to actually be marked dead before showing the textbox
 	var is_dead_flag: bool = false
-	if orc.has_method("get"):
-		var v = orc.get("is_dead")
-		if v == true:
-			is_dead_flag = true
-	# Check animation name if possible
+	if orc.get("is_dead") == true:
+		is_dead_flag = true
 	if orc.has_node("AnimatedSprite2D"):
 		var anim_node: Node = orc.get_node("AnimatedSprite2D")
-		# safe-check for property 'animation'
-		if anim_node.has_method("get") and str(anim_node.get("animation")) == "death":
+		if anim_node.get("animation") == "death":
 			if is_dead_flag:
-				_end_text_shown = true
+				global.cliff_end_text_shown = true
 				_show_end_text(["You defeated the Orc!", "Your victory revealed new paths across the cliffside.", "Thank you for playing our demo."])
 			return
 	if is_dead_flag:
-		_end_text_shown = true
+		global.cliff_end_text_shown = true
 		_show_end_text(["You defeated the Orc!", "Your victory revealed new paths across the cliffside.", "Thank you for playing our demo."])
 
 
 # Handler when the orc node is removed from the tree (fallback)
 func _on_orc_tree_exited(orc: Node) -> void:
-	# only show once and only if the orc was actually dead
-	if _end_text_shown:
+	if global.cliff_end_text_shown:
 		return
-	if orc != null and orc.has_method("get") and orc.get("is_dead") == true:
-		_end_text_shown = true
+	if orc != null and orc.get("is_dead") == true:
+		global.cliff_end_text_shown = true
 		_show_end_text(["You defeated the Orc!", "Your victory revealed new paths across the cliffside.", "Thank you for playing our demo."])
 
 
@@ -166,22 +169,18 @@ func _show_end_text(message) -> void:
 		push_error("cliff_side: Textbox_end node not found - cannot show end textbox")
 		return
 
-	# Build an array of texts to pass to textbox.start_texts
 	var texts_to_show: Array = []
 	if typeof(message) == TYPE_ARRAY:
 		texts_to_show = message.duplicate()
 	else:
-		# single string -> build three sentences using defaults
 		var first: String = str(message)
 		var second: String = "Your victory revealed new paths across the cliffside, and hope began to spread through the nearby villages."
 		var third: String = "Thank you for playing our demo — your journey isn't over yet, but this battle is done."
 		texts_to_show = [first, second, third]
 
-	# Use start_texts so the typing effect plays; fallback to show_textbox or direct label set.
 	if tb.has_method("start_texts"):
 		tb.start_texts(texts_to_show)
 	elif tb.has_method("show_textbox"):
-		# fallback: show the first text directly
 		var label_path: String = "textboxContainer/MarginContainer/HBoxContainer/Label2"
 		if texts_to_show.size() > 0 and tb.has_node(label_path):
 			var label = tb.get_node(label_path)
@@ -190,3 +189,84 @@ func _show_end_text(message) -> void:
 		tb.show_textbox()
 	else:
 		push_error("cliff_side: Textbox_end does not expose start_texts() or show_textbox()")
+
+
+# -----------------------------
+# Persistent enemy restoration
+# Removes enemies that global says are dead, and connects live ones.
+# -----------------------------
+func _restore_persistent_enemies() -> void:
+	var enemies: Array = []
+	if get_tree().has_group("persistent_enemy"):
+		enemies = get_tree().get_nodes_in_group("persistent_enemy")
+	else:
+		# fallback: scan for orcs/slimes by script or name
+		_collect_persistent_enemies(self, enemies)
+
+	for enemy in enemies:
+		if not enemy:
+			continue
+		var pid = enemy.get("persistent_id")
+		var id = ""
+		if pid != null and str(pid) != "":
+			id = str(pid)
+		else:
+			id = str(enemy.name)
+
+		# If marked dead in global, remove it now so the scene appears as left
+		if not global.is_enemy_alive(id):
+			print("cliff_side: removing persistent enemy (dead) -> ", id)
+			enemy.queue_free()
+			continue
+
+		# Connect to died so we mark global (bind id)
+		if enemy.has_signal("died"):
+			var cb = Callable(self, "_on_persistent_enemy_died").bind(id)
+			if not enemy.is_connected("died", cb):
+				enemy.connect("died", cb)
+		elif enemy.has_node("AnimatedSprite2D"):
+			var anim = enemy.get_node("AnimatedSprite2D")
+			var cb2 := Callable(self, "_on_persistent_enemy_anim_finished").bind(enemy, id)
+			if not anim.is_connected("animation_finished", cb2):
+				anim.connect("animation_finished", cb2)
+		else:
+			var cb3 := Callable(self, "_on_persistent_enemy_tree_exited").bind(enemy, id)
+			if not enemy.is_connected("tree_exited", cb3):
+				enemy.connect("tree_exited", cb3)
+
+
+func _collect_persistent_enemies(node: Node, out_array: Array) -> void:
+	for child in node.get_children():
+		if not child is Node:
+			continue
+		var scr: Script = null
+		if child.has_method("get_script"):
+			scr = child.get_script()
+		elif child.get("script") != null:
+			scr = child.get("script")
+		var added: bool = false
+		if scr != null:
+			var path = str(scr.resource_path).to_lower()
+			if path.find("enemy_orc") != -1 or path.find("enemy_slime") != -1:
+				out_array.append(child)
+				added = true
+		if not added and (child.name.to_lower().find("orc") != -1 or child.name.to_lower().find("slime") != -1):
+			if child.has_node("AnimatedSprite2D") or child is CharacterBody2D:
+				out_array.append(child)
+				added = true
+		_collect_persistent_enemies(child, out_array)
+
+
+# Callbacks to mark global when a connected enemy dies (used when enemy doesn't mark global itself).
+func _on_persistent_enemy_died(id: String) -> void:
+	if id != "":
+		global.mark_enemy_dead(id)
+
+func _on_persistent_enemy_anim_finished(enemy: Node, id: String) -> void:
+	if enemy != null and enemy.get("is_dead") == true:
+		if id != "":
+			global.mark_enemy_dead(id)
+
+func _on_persistent_enemy_tree_exited(enemy: Node, id: String) -> void:
+	if id != "":
+		global.mark_enemy_dead(id)

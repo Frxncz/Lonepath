@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dftv4amd8tyfx"]
+[gd_scene load_steps=12 format=3 uid="uid://dftv4amd8tyfx"]
 
 [ext_resource type="Script" uid="uid://xcbgqmc3jt7h" path="res://script/start_screen.gd" id="1_gkif4"]
 [ext_resource type="Texture2D" uid="uid://ck0ino6uu0pje" path="res://art/icon.svg" id="2_3273u"]
@@ -21,26 +21,6 @@ corner_radius_bottom_left = 5
 corner_detail = 14
 shadow_color = Color(0, 0, 0, 0.5803922)
 shadow_size = 10
-shadow_offset = Vector2(0, 3.41)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p8amv"]
-bg_color = Color(0.4506483, 0.45064825, 0.4506485, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.18431373)
-shadow_size = 5
-shadow_offset = Vector2(0, 3.41)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x64hx"]
-bg_color = Color(0.5729883, 0.5729882, 0.57298845, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.18431373)
-shadow_size = 5
 shadow_offset = Vector2(0, 3.41)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p8amv"]
@@ -90,15 +70,10 @@ theme_override_constants/separation = 19
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = -15
 theme_override_fonts/font = ExtResource("5_x64hx")
 theme_override_font_sizes/font_size = 45
 theme_override_styles/normal = SubResource("StyleBoxFlat_cmsy7")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_p8amv")
-theme_override_styles/hover = SubResource("StyleBoxFlat_x64hx")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_p8amv")
 text = "Start game"
 icon = SubResource("ViewportTexture_p8amv")
@@ -107,15 +82,10 @@ icon = SubResource("ViewportTexture_p8amv")
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = -15
 theme_override_fonts/font = ExtResource("5_x64hx")
 theme_override_font_sizes/font_size = 45
 theme_override_styles/normal = SubResource("StyleBoxFlat_cmsy7")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_p8amv")
-theme_override_styles/hover = SubResource("StyleBoxFlat_x64hx")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_p8amv")
 text = "Controls
 "
@@ -125,15 +95,10 @@ icon = SubResource("ViewportTexture_p8amv")
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = -15
 theme_override_fonts/font = ExtResource("5_x64hx")
 theme_override_font_sizes/font_size = 45
 theme_override_styles/normal = SubResource("StyleBoxFlat_cmsy7")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_p8amv")
-theme_override_styles/hover = SubResource("StyleBoxFlat_x64hx")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_p8amv")
 text = "Exit
 "

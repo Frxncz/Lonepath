@@ -1,9 +1,13 @@
 extends CharacterBody2D
 
+signal died(message: String)
+
+@export var persistent_id: String = ""  # set unique id in inspector (optional)
+
 var speed = 63
 var player_chase = false
 var player = null
-var health = 40
+var health = 100
 var player_inattack_zone = false
 var can_take_damage = true
 
@@ -19,6 +23,9 @@ var knockback_velocity := Vector2.ZERO
 var knockback_force := 200.0
 var knockback_duration := 0.0
 var max_knockback_duration := 0.12
+
+# Guard to ensure we emit died only once
+var died_emitted: bool = false
 
 func _ready():
 	if $AnimatedSprite2D:
@@ -147,7 +154,7 @@ func deal_with_damage():
 			if has_node("take_damage_cooldown"):
 				$take_damage_cooldown.start()
 			can_take_damage = false
-			print("orc health = ", health)
+			print("slime health = ", health)
 
 			# KNOCKBACK: push enemy away from the player slightly
 			if player != null:
@@ -158,6 +165,15 @@ func deal_with_damage():
 			if health <= 0:
 				# Play death animation and mark as dead so it can finish
 				is_dead = true
+				print("enemy_slime: health <= 0, is_dead set true for ", name)
+				# Ensure we only emit once
+				if not died_emitted:
+					died_emitted = true
+					# mark persistent state before queue_free / removal
+					var id = persistent_id if persistent_id != "" else name
+					global.mark_enemy_dead(id)
+					emit_signal("died", "You defeated the Slime!")
+					print("enemy_slime: emitted died for ", id)
 				$AnimatedSprite2D.play("death")
 
 func _on_take_damage_cooldown_timeout() -> void:

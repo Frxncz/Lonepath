@@ -245,7 +245,7 @@ radius = 44.099346
 radius = 7.638625
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aild4"]
-radius = 28.01785
+radius = 30.0
 
 [node name="enemyOrc" type="CharacterBody2D"]
 y_sort_enabled = true
@@ -287,11 +287,12 @@ wait_time = 0.016
 
 [node name="healthbar" type="ProgressBar" parent="."]
 modulate = Color(0.93, 0.046500012, 0.046500012, 1)
-offset_left = -7.0
+offset_left = -12.0
 offset_top = 11.0
-offset_right = 142.99998
-offset_bottom = 38.0
+offset_right = 233.0
+offset_bottom = 56.0
 scale = Vector2(0.1, 0.1)
+max_value = 1200.0
 show_percentage = false
 
 [connection signal="ready" from="." to="." method="_on_ready"]

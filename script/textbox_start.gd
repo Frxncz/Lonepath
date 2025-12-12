@@ -16,8 +16,9 @@ var typing_done: bool = false
 
 func _ready() -> void:
 	hide_textbox()
-	# example: start a sequence
-	start_texts(["Your world faces destruction. Rise again and push forward.", "Kill the three different slimes that block your way to the boss.", "Defeat the forest boss to save your village and find your way home."])
+	# Only auto-start if the player hasn't seen this textbox before
+	if not global.world_textbox_shown:
+		start_texts(["Your world faces destruction. Rise again and push forward.", "Kill the three different slimes that block your way to the boss.", "Defeat the forest boss to save your village and find your way home."])
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Use the action 'ui_accept' (Enter/Space by default).
@@ -43,6 +44,8 @@ func start_texts(text_array: Array) -> void:
 func _show_next_or_close() -> void:
 	if current_index >= texts.size():
 		hide_textbox()
+		# mark as shown so it won't auto-start in future scene loads
+		global.world_textbox_shown = true
 		return
 	current_text = texts[current_index]
 	typing_done = false
