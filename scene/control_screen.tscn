@@ -1,0 +1,148 @@
+[gd_scene load_steps=7 format=3 uid="uid://dbrocvhq0upfh"]
+
+[ext_resource type="Script" uid="uid://dhmo4v4b86hnt" path="res://scene/control_screen.gd" id="1_54rqd"]
+[ext_resource type="Texture2D" uid="uid://bvr1s8qu4jvqs" path="res://art/Menu Assests/Control BG.png" id="1_px7ky"]
+[ext_resource type="Texture2D" uid="uid://5y3cwtppy74r" path="res://art/Menu Assests/13.png" id="2_54rqd"]
+[ext_resource type="FontFile" uid="uid://y7epqqmk5ax" path="res://art/fonts/Born2bSportyV2.ttf" id="3_y3n10"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ruvld"]
+texture = ExtResource("1_px7ky")
+modulate_color = Color(0.5529556, 0.55295557, 0.55295557, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mwv23"]
+bg_color = Color(0.78039217, 0.6901961, 0.54509807, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 14
+shadow_color = Color(0, 0, 0, 0.5803922)
+shadow_size = 10
+shadow_offset = Vector2(0, 3.41)
+
+[node name="control_screen" type="CanvasLayer"]
+script = ExtResource("1_54rqd")
+
+[node name="Panel2" type="Panel" parent="."]
+offset_right = 1151.0
+offset_bottom = 646.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_ruvld")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 38.0
+offset_top = 36.0
+offset_right = 144.0
+offset_bottom = 78.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_mwv23")
+text = "BACK
+"
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 344.0
+offset_top = 376.0
+offset_right = 478.0
+offset_bottom = 426.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_mwv23")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mwv23")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mwv23")
+text = "Enter
+"
+
+[node name="Button4" type="Button" parent="."]
+offset_left = 328.0
+offset_top = 486.0
+offset_right = 505.0
+offset_bottom = 541.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxFlat_mwv23")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mwv23")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mwv23")
+text = "Right Click"
+
+[node name="Button5" type="Button" parent="."]
+offset_left = 334.0
+offset_top = 251.0
+offset_right = 493.0
+offset_bottom = 313.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_mwv23")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mwv23")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mwv23")
+text = "W A S D"
+
+[node name="13" type="Sprite2D" parent="."]
+position = Vector2(577, 101)
+scale = Vector2(5.196153, 4.75)
+texture = ExtResource("2_54rqd")
+region_enabled = true
+region_rect = Rect2(255.00087, 194.74902, 65.81767, 28.562393)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 509.0
+offset_top = 74.0
+offset_right = 658.0
+offset_bottom = 118.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.013445757, 0.013445757, 0.013445757, 0.14901961)
+theme_override_constants/shadow_offset_x = 6
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/shadow_outline_size = -4
+theme_override_fonts/font = ExtResource("3_y3n10")
+theme_override_font_sizes/font_size = 44
+text = "Controls"
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 604.0
+offset_top = 253.0
+offset_right = 803.0
+offset_bottom = 307.0
+theme_override_colors/font_color = Color(0.78039217, 0.6901961, 0.54509807, 1)
+theme_override_colors/font_shadow_color = Color(0.01, 0.01, 0.01, 0.8156863)
+theme_override_constants/shadow_offset_x = 6
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/shadow_outline_size = -4
+theme_override_fonts/font = ExtResource("3_y3n10")
+theme_override_font_sizes/font_size = 53
+text = "MOVEMENT"
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 638.0
+offset_top = 490.0
+offset_right = 786.0
+offset_bottom = 544.0
+theme_override_colors/font_color = Color(0.78039217, 0.6901961, 0.54509807, 1)
+theme_override_colors/font_shadow_color = Color(0.01, 0.01, 0.01, 0.8156863)
+theme_override_constants/shadow_offset_x = 6
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/shadow_outline_size = -4
+theme_override_fonts/font = ExtResource("3_y3n10")
+theme_override_font_sizes/font_size = 53
+text = "ATTACK"
+
+[node name="Label4" type="Label" parent="."]
+offset_left = 623.0
+offset_top = 377.0
+offset_right = 800.0
+offset_bottom = 431.0
+theme_override_colors/font_color = Color(0.78039217, 0.6901961, 0.54509807, 1)
+theme_override_colors/font_shadow_color = Color(0.01, 0.01, 0.01, 0.8156863)
+theme_override_constants/shadow_offset_x = 6
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/shadow_outline_size = -4
+theme_override_fonts/font = ExtResource("3_y3n10")
+theme_override_font_sizes/font_size = 53
+text = "INTERACT"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
