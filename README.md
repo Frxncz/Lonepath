@@ -1,36 +1,90 @@
-# Sprite Cutter
+# Lonepath: A 2D RPG Adventure Game
 
-This is a tool to manually create .atlastex texures from a single atlas/spritesheet texture
+Lonepath is a 2D RPG adventure game developed using the **Godot Game Engine** as part of a 3rd-year college project. The game immerses players in the journey of a **lone soldier** who must navigate through a war-torn world filled with dangers, challenges, and quests. The soldier’s ultimate goal is to survive, overcome obstacles, complete quests, and find their path back home.
 
-## How To Use
+With stunning 2D visuals and engaging gameplay mechanics, Lonepath offers players a challenging and emotional experience as they unravel the mysteries of the world around them. The game highlights themes of survival, resilience, and discovery in times of adversity.
 
-1) Create a new scene with an AtlasScene root node.
+---
 
-![spritecutter1](https://user-images.githubusercontent.com/526829/132289808-9ec4094d-cb05-453e-b2ef-029fed7cbaa4.png)
+## Gameplay Features
 
+### Core Mechanics:
+- **Exploration**: Traverse through a vast, beautifully designed pixel-art world.
+- **Quests**: Accomplish unique tasks and goals assigned to your character throughout the journey.
+- **Combat**: Battle against enemies and strategize to overcome challenges.
+- **Survival**: Manage resources, navigate environments, and make choices to stay alive.
+- **Storytelling**: Follow a rich narrative-driven experience with emotional and thought-provoking elements.
 
-2) Add as many Sprite nodes as you want using region and the TextureRegion dock to define the region to use. The name of the node will be the name of the exported file.
+### Player Objectives:
+- Explore the map to uncover hidden areas and secrets.
+- Interact with NPCs (non-playable characters) to receive quests and progress the story.
+- Defeat enemies using a variety of skills and tactics.
+- Collect valuable items and resources to aid in survival.
+- Progress steadily towards the ultimate goal of returning home.
 
-![spritecutter2](https://user-images.githubusercontent.com/526829/132289817-96e85fab-b8d6-46bb-8772-06fb0a4959a6.png)
+---
 
+## Controls
+**Lonepath** uses keyboard-based controls to deliver an intuitive user experience. Below is the basic control schema:
+- **Arrow Keys**: Move the character around the environment.
+- **Spacebar**: Interact with objects or NPCs.
+- **Z**: Action key for attacks or abilities.
+- **X**: Inventory and item usage.
+- **Escape**: Pause or access the menu.
 
-3) Set the export path. If it doesn't exist it will be created
+---
 
-![spritecutter3](https://user-images.githubusercontent.com/526829/132289827-47319c35-7717-43d1-9aaf-875dac10ba7c.png)
+## How to Run the Game
 
+1. Clone or download the **Lonepath** repository from [GitHub](https://github.com/Frxncz/Lonepath).
+2. Install the **Godot Game Engine** from [Godot Official Site](https://godotengine.org/download) (minimum version required: 3.x).
+3. Launch the Godot editor and load the `project.godot` file located in the root directory of the repository.
+4. Click on the **Play** icon in the Godot editor to run the game.
+5. For exporting as an executable:
+   - Go to **Project → Export**.
+   - Create the export preset for your platform (Windows, Mac, Linux, etc.).
+   - Follow the instructions to generate a standalone build of the game.
 
-4) Go to Tools->Sprite Cutter: Export Atlas Textures
+---
 
-![spritecutter4](https://user-images.githubusercontent.com/526829/132289844-4d00baf8-883a-4b11-a5d4-8543a7dad162.png)
+## Game Screenshots
 
-![spritecutter5](https://user-images.githubusercontent.com/526829/132289851-e83f7a01-0623-4cd7-85b9-88e36fbaa7cc.png)
+| **Menu Screen** | **Game World** | **NPC Interaction** | **Quest Screen** |
+| --------------- | -------------- | ------------------- | --------------- |
+| ![](screenshots/menu-screen.png) | ![](screenshots/game-world.png) | ![](screenshots/npc-interaction.png) | ![](screenshots/quest-screen.png) |
 
+| **Battle Scene** | **Map Exploration** | **Inventory System** | **Game Over Screen** |
+| ---------------- | ------------------- | ------------------- | -------------------- |
+| ![](screenshots/battle-scene.png) | ![](screenshots/map-exploration.png) | ![](screenshots/inventory-system.png) | ![](screenshots/game-over-screen.png) |
 
+---
 
-You can save the AtlasScene as a scene in case you ever need to change the sprite regions
+## Development and Project Highlights
 
-If you change the AtlasScene just repeat step 4. Existing textures will be overwritten.
+### Development Tools:
+- **Godot Game Engine**: The game engine used for developing Lonepath.
+- **GDScript**: The primary scripting language, which accounts for the core mechanics and logic.
+- **Version Control**: Managed using GitHub for effective collaboration and source code management.
 
-### License
-MIT licensed. See LICENSE.md
-The sprites shown in How To Use section are from https://kenney.nl/assets/toon-characters-1
+---
+
+## Contributing
+
+If you’re interested in contributing to Lonepath, feel free to submit pull requests or create issues in the [GitHub repository](https://github.com/Frxncz/Lonepath). Collaboration is encouraged for enhancing the game world, fixing bugs, and optimizing code.
+
+---
+
+## Demo Video
+Check out the gameplay demo here: *(Insert your demo video link)*
+
+---
+
+## License
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for more details.
+
+---
+
+## Acknowledgements
+- **Godot Community**: For the rich library of tutorials and plugins.
+- **Contributors and Play-Testers**: For helping refine gameplay mechanics.
+- **University Project Advisors**: For their support and guidance throughout development.
