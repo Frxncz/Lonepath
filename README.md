@@ -75,7 +75,7 @@ If you’re interested in contributing to Lonepath, feel free to submit pull req
 ---
 
 ## Demo Video
-[Check out the gameplay demo here! 🎥]([https://drive.google.com/file/d/1vB1SSUDrZSAg5rF4-R_DN4LtHqfMZOCO/view?usp=sharing](https://drive.google.com/file/d/1ejbGU5_o8ZOtrEviE3qQYQ_1_L7iqcvV/view?usp=sharing))
+[Check out the gameplay demo here! 🎥](https://drive.google.com/file/d/1ejbGU5_o8ZOtrEviE3qQYQ_1_L7iqcvV/view?usp=sharing)
 
 ---
 
